@@ -13,9 +13,15 @@ import { FaVolumeUp } from "react-icons/fa";
 import { RiPlayMiniLine } from "react-icons/ri";           
 import { SiZoom } from "react-icons/si";
 import { FaVolumeHigh } from "react-icons/fa6";
+import { FaRegCirclePause } from "react-icons/fa6";
+
+import { useContext } from 'react';
+import { Playercomponent } from './Context/Playercomponent.jsx';
 
 export const Player = () => {
-  const [post, setPost] = useState([]);
+ 
+
+ const [post, setPost] = useState([]);
 
   useEffect(() => {
     const url = "https://spotgpt-backend.onrender.com/api/song/list";
@@ -27,25 +33,27 @@ export const Player = () => {
       .catch(error => console.error('Error:', error));
   }, []);
 
-  const firstSong = post[0]; 
+  const firstSong = post[0];
+
+  const {seekBar,seekBg,playStatus,playAudio,pauseAudio}= useContext(Playercomponent);
 
   return (
     <div className='h-[10%] bg-black flex items-center justify-between text-white px-4'>
-      {firstSong && (
-        <div className="hidden lg:flex items-center gap-4" key={firstSong._id}>
-          <img src={firstSong.image}  className="w-10 h-10 rounded" />
-          <div>
-            <p>{firstSong.name}</p>
-             <p>{firstSong.desc}</p>
-          </div>
+       {firstSong && (
+        <div className="hidden lg:flex items-center ml-2 " key={firstSong._id}>
+          <img src={firstSong.image} alt={firstSong.name} className="w-10 h-10 rounded" />
+          <span className='ml-2'>{firstSong.name}</span>
+          
         </div>
-        
       )}
       <div className="flex flex-col items-center gap-1 m-auto ">
         <div className="flex gap-4 ">
             <IoShuffleSharp className='text-2xl cursor-pointer'/>
             <ImPrevious className='text-2xl cursor-pointer'/>
-            <FaRegPlayCircle className='text-2xl cursor-pointer'/>
+            
+            {playStatus ? <FaRegCirclePause onClick={pauseAudio} className='text-2xl cursor pointer'/> : 
+            <FaRegPlayCircle onClick={playAudio} className='text-2xl cursor-pointer'/> 
+            }
             <ImNext className='text-2xl cursor-pointer'/>
             <RxLoop className='text-2xl cursor-pointer'/>
             <FaVolumeUp className='text-2xl cursor-pointer'/>
@@ -57,8 +65,8 @@ export const Player = () => {
         </div>
         <div className="flex items-center gap-5">
             <p>1:05</p>
-            <div className="w-[60vw] max-w-[500px] bg-gray-300 rounded-full cursor-pointer">
-                <hr className="h-1 border-none w-10 bg-green-800 rounded-full" />
+            <div ref={seekBg} className="w-[60vw] max-w-[500px] bg-gray-300 rounded-full cursor-pointer">
+                <hr ref={seekBar} className="h-1 border-none w-10 bg-green-800 rounded-full" />
             </div>
             <p>4:00</p>
         </div>

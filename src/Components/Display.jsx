@@ -7,6 +7,7 @@ import axios from 'axios'
 import { Album } from './Album'
 import HomeSongs from './HomeSongs'
 
+
 export default function Display() {
    const [post, setPost] = useState([]);
 
@@ -33,7 +34,6 @@ export default function Display() {
   }, []);
   return (
     <>
-  <Routes> <Route path='/' element={<DisplayHome/>}/></Routes>
     <div className='w-[100%] m-2 px-6 pt-4 rounded-lg bg-[#121212] text-white overflow-auto lg:w-[75%] lg:ml-0' id='display'> 
     
     <h1 className="m-5 text-2xl font-bold">Top Playlists</h1>
