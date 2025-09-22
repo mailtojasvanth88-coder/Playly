@@ -1,27 +1,84 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { IoShuffleSharp } from "react-icons/io5";
+import { ImPrevious } from "react-icons/im";
+import { FaRegPlayCircle } from "react-icons/fa";
+import { ImNext } from "react-icons/im";
+import { RxLoop } from "react-icons/rx";
+import { IoPlaySharp } from "react-icons/io5";
+import { GiOldMicrophone } from "react-icons/gi";
+import { PiQueueLight } from "react-icons/pi";
+import { MdOutlineSpeaker } from "react-icons/md";
+import { FaVolumeUp } from "react-icons/fa";
+import { RiPlayMiniLine } from "react-icons/ri";           
+import { SiZoom } from "react-icons/si";
+import { FaVolumeHigh } from "react-icons/fa6";
 
 export const Player = () => {
   const [post, setPost] = useState([]);
 
   useEffect(() => {
-    const url = "https://spotgpt-backend.onrender.com/api/album/list";
+    const url = "https://spotgpt-backend.onrender.com/api/song/list";
     axios.get(url)
       .then(res => {
-        console.log(res.data);  // debug
-        setPost(res.data.albums); // ✅ only albums array
+        console.log(res.data);
+        setPost(res.data.songs); 
       })
       .catch(error => console.error('Error:', error));
   }, []);
 
+  const firstSong = post[0]; 
+
   return (
-    <div className='h-[10%] bg-black flex items-center justify-center text-white px-4 gap-20'> 
-      {post.map((album, index) => (
-        <div className="hidden lg:flex items-center  bg-red-500 " key={album._id}>
-          <img src={album.image} alt={album.name} className="w-10 h-10 rounded" />
-          <span>{album.name}</span>
+    <div className='h-[10%] bg-black flex items-center justify-between text-white px-4'>
+      {firstSong && (
+        <div className="hidden lg:flex items-center gap-4" key={firstSong._id}>
+          <img src={firstSong.image}  className="w-10 h-10 rounded" />
+          <div>
+            <p>{firstSong.name}</p>
+             <p>{firstSong.desc}</p>
+          </div>
         </div>
-      ))}
+        
+      )}
+      <div className="flex flex-col items-center gap-1 m-auto ">
+        <div className="flex gap-4 ">
+            <IoShuffleSharp className='text-2xl cursor-pointer'/>
+            <ImPrevious className='text-2xl cursor-pointer'/>
+            <FaRegPlayCircle className='text-2xl cursor-pointer'/>
+            <ImNext className='text-2xl cursor-pointer'/>
+            <RxLoop className='text-2xl cursor-pointer'/>
+            <FaVolumeUp className='text-2xl cursor-pointer'/>
+
+
+
+
+
+        </div>
+        <div className="flex items-center gap-5">
+            <p>1:05</p>
+            <div className="w-[60vw] max-w-[500px] bg-gray-300 rounded-full cursor-pointer">
+                <hr className="h-1 border-none w-10 bg-green-800 rounded-full" />
+            </div>
+            <p>4:00</p>
+        </div>
+      </div>
+      <div className="hidden lg:flex items-center gap-2 opacity-75">
+        <IoPlaySharp className='text-1xl cursor-pointer'/>
+        <GiOldMicrophone className='text-1xl cursor-pointer'/>
+        <PiQueueLight className='text-1xl cursor-pointer'/>
+        <MdOutlineSpeaker className='text-1xl cursor-pointer'/>
+        <FaVolumeHigh  className='text-1xl cursor-pointer'/>
+        <div className="w-20 bg-slate-50 h-1 rounded"></div>
+        <RiPlayMiniLine  className='text-1xl cursor-pointer'/>
+        <SiZoom className='text-2xl cursor-pointer'/>
+        
+
+
+
+        
+
+      </div>
     </div>
-  ) 
-}
+  );
+};
