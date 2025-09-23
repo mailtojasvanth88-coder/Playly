@@ -24,7 +24,7 @@ const PlayercomponentProvider = (props) => {
       .then((res) => {
         console.log(res.data);
         setPost(res.data.songs);
-        setTrack(res.data.songs[3]); // Set the first song as the initial track
+        setTrack(res.data.songs[3]); 
       })
       .catch((error) => console.error("Error:", error));
   }, []);
