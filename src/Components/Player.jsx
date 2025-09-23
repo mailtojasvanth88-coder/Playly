@@ -13,8 +13,7 @@ import { FaVolumeUp } from "react-icons/fa";
 import { RiPlayMiniLine } from "react-icons/ri";           
 import { SiZoom } from "react-icons/si";
 import { FaVolumeHigh } from "react-icons/fa6";
-import { FaRegCirclePause } from "react-icons/fa6";
-
+import { FaRegCirclePause } from "react-icons/fa6"
 import { useContext } from 'react';
 import { Playercomponent } from './Context/Playercomponent.jsx';
 
@@ -35,7 +34,7 @@ export const Player = () => {
 
   const firstSong = post[0];
 
-  const {seekBar,seekBg,playStatus,playAudio,pauseAudio}= useContext(Playercomponent);
+  const {seekBar,seekBg,playStatus,playAudio,pauseAudio,time}= useContext(Playercomponent);
 
   return (
     <div className='h-[10%] bg-black flex items-center justify-between text-white px-4'>
@@ -56,19 +55,14 @@ export const Player = () => {
             }
             <ImNext className='text-2xl cursor-pointer'/>
             <RxLoop className='text-2xl cursor-pointer'/>
-            <FaVolumeUp className='text-2xl cursor-pointer'/>
-
-
-
-
-
+            
         </div>
         <div className="flex items-center gap-5">
-            <p>1:05</p>
+            <p>{time.currentTime.minute}:{time.currentTime.second}</p>
             <div ref={seekBg} className="w-[60vw] max-w-[500px] bg-gray-300 rounded-full cursor-pointer">
                 <hr ref={seekBar} className="h-1 border-none w-10 bg-green-800 rounded-full" />
             </div>
-            <p>4:00</p>
+            <p>{time.totalTime.minute}:{time.totalTime.second}</p>
         </div>
       </div>
       <div className="hidden lg:flex items-center gap-2 opacity-75">

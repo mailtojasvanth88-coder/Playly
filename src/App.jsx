@@ -20,7 +20,7 @@ const App = () => {
 
       <Player />
 
-      {track && <audio ref={audioRef} src={track.file} preload="auto"></audio>}
+      { track && <audio ref={audioRef} src={track.file} preload="auto"></audio>}
     </div>
   );
 };
