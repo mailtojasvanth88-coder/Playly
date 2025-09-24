@@ -1,10 +1,12 @@
 import React from 'react'
 import Navbar from './Navbar'
 import { useParams } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import axios from 'axios'
 import { FaRegClock } from "react-icons/fa6";
 import HomeSongs from './HomeSongs'
+import { Playercomponent } from './Context/Playercomponent.jsx';
+
 export default function DisplayAlbum() {
   const [albums, setAlbums] = useState([]);
   const [songs, setSongs] = useState([]);
@@ -33,6 +35,8 @@ export default function DisplayAlbum() {
 
   if (!albumdata) return <p>Loading album...</p>;
 
+  const { playwithid } = useContext(Playercomponent);
+
   return (
     <>
       <Navbar/>
@@ -51,7 +55,7 @@ export default function DisplayAlbum() {
           
         </div>
       </div>
-      <div className="grid grid-cols-4 sm:grid-col-4 mt-10 mb-4 pl-2 text-[#a7a7a7]">
+      <div className="grid grid-cols-4 sm:grid-col-5 mt-10 mb-4 pl-2 text-[#a7a7a7]">
         <p className='mr-4'><b>#</b>Tittle</p>
         <p className="">Album</p>
         <p className="hidden sm:block">Date Added</p>

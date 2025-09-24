@@ -1,4 +1,4 @@
-import React, { createContext, useRef, useState, useEffect } from "react";
+import React, { createContext, useRef, useState, useEffect, use } from "react";
 import axios from "axios";
 
 export const Playercomponent = createContext();
@@ -24,10 +24,20 @@ const PlayercomponentProvider = (props) => {
       .then((res) => {
         console.log(res.data);
         setPost(res.data.songs);
-        setTrack(res.data.songs[3]); // Set the first song as the initial track
+        setTrack(res.data.songs[0]); 
       })
       .catch((error) => console.error("Error:", error));
   }, []);
+
+ useEffect(() => {
+    if (track && audioRef.current) {
+      audioRef.current.src = track.file; 
+      if (playStatus) {
+        audioRef.current.play();
+      }   
+    }
+  }, [track]);
+
 
   const playAudio = () => {
     if (audioRef.current) {
@@ -43,11 +53,40 @@ const PlayercomponentProvider = (props) => {
     }
   };
 
+  
+  
+  const nextTrack=()=>{
+    const currentIndex= post.findIndex((p)=>p._id===track._id);
+    const nextIndex=(currentIndex+1)%post.length;
+    setTrack(post[nextIndex]);
+    audioRef.current.play();
+    setPlayStatus(true);
+  }
+  const prevTrack=()=>{
+    const currentIndex= post.findIndex((p)=>p._id===track._id);
+    const prevIndex=(currentIndex-1+post.length)%post.length;
+    setTrack(post[prevIndex]);
+    audioRef.current.play();
+    setPlayStatus(true);
+  }
+ const loop =()=>{
+    audioRef.current.currentTime=0;
+    audioRef.current.play();
+    setPlayStatus(true);
+  } 
+   const suffle =()=>{
+    const randomIndex=Math.floor(Math.random()*post.length);
+    setTrack(post[randomIndex]);  
+    audioRef.current.play();
+    setPlayStatus(true);
+  }
+
   const  playwithid= async (id)=>{
     await setTrack(post[id]);
     await audioRef.current.play();
     setPlayStatus(true);
   }
+  
 
 
 
@@ -84,7 +123,11 @@ const PlayercomponentProvider = (props) => {
     playAudio,
     pauseAudio,
     post,
-    playwithid
+    playwithid,
+    nextTrack,
+    prevTrack,
+    loop,
+    suffle
   };
 
   return (
