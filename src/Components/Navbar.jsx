@@ -1,15 +1,17 @@
-import React from 'react'
+import React, { use } from 'react'
 import { IoIosArrowDropleft } from "react-icons/io";
 import { IoIosArrowDropright } from "react-icons/io";
+import { useNavigate } from 'react-router-dom';
 
 export default function Navbar() {
+  const navigate = useNavigate();
   return (
     <>
 
     <div className="w-full flex justify-between items-center font-semibold">
         <div className="flex items-center gap-2  text-3xl">
-            <IoIosArrowDropleft className='text-white' />
-            <IoIosArrowDropright />
+            <IoIosArrowDropleft onClick={()=>navigate(-1)} className=' cursor-pointer' />
+            <IoIosArrowDropright  onClick={()=>navigate(1)}className='cursor-pointer'/>
 
 
 

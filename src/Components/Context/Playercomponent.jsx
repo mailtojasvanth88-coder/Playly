@@ -24,7 +24,7 @@ const PlayercomponentProvider = (props) => {
       .then((res) => {
         console.log(res.data);
         setPost(res.data.songs);
-        setTrack(res.data.songs[3]); 
+        setTrack(res.data.songs[3]); // Set the first song as the initial track
       })
       .catch((error) => console.error("Error:", error));
   }, []);
@@ -55,6 +55,9 @@ const PlayercomponentProvider = (props) => {
     if (!audioRef.current) return;
 
     audioRef.current.ontimeupdate = () => {
+      seekBar.current.style.width = (Math.floor(audioRef.current.currentTime) / Math.floor(audioRef.current.duration)) * 100 + "%";
+
+      // Update time state
       setTime({
         currentTime: {
           seconds: Math.floor(audioRef.current.currentTime % 60),
@@ -66,7 +69,7 @@ const PlayercomponentProvider = (props) => {
         },
       });
     };
-  }, []);
+  }, [track]);
 
   const contextValue = {
     audioRef,
