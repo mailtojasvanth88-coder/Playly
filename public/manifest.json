@@ -7,6 +7,7 @@
     "background_color": "#000000",
     "theme_color": "#000000",
     "description": "A Spotify clone built with React and Tailwind CSS.",
+    "lang": "en-US",
     "icons": [
       {
         "src": "favicon.ico",
